@@ -1,14 +1,18 @@
-export function reducer(num: number, acent: string){
+type nums= {
+  name: string,
+  num: number
+}
+export function reducer(num: nums, acent: string){
   if(acent === 'inc'){
-    return(num + 1)
+    return({name: name, num: num.num + 1})
   }
   if(acent === 'dec'){
-    return(num - 1)
+    return({name: name, num: num.num - 1})
   }
   if(acent === 'res'){
-    return(0)
+    return({name: name, num: 0})
   }
   else{
-    return(num)
+    return({name: name, num})
   }
 }
