@@ -2,17 +2,42 @@ type nums= {
   name: string,
   age: number
 }
-export function reducer(num: nums, acent: string){
+type acentTy= {
+  type: string,
+  payload: number | string
+}
+export function reducer(num: nums, acent: string | acentTy){
   if(acent === 'inc'){
-    return({name: num.name, age: num.age + 1})
+    return({...num, age: num.age + 1})
   }
   if(acent === 'dec'){
-    return({name: num.name, age: num.age - 1})
+    return({...num, age: num.age - 1})
   }
   if(acent === 'res'){
-    return({name: num.name, age: 0})
+    return({...num, age: 0})
+  }
+  if(typeof acent === "object"){
+    if(typeof acent.payload === 'number'){
+      if(acent.type === 'setAge'){
+        return({...num, age: acent.payload})
+      }
+      else{
+        return({...num})
+      }
+    }
+    if(typeof acent.payload === 'string'){
+      if(acent.type === 'setName'){
+        return({...num, name: acent.payload})
+      }
+      else{
+        return({...num})
+      }
+    }
+    else{
+      return({...num})
+    }
   }
   else{
-    return({name: num.name, age: num.age})
+    return({...num})
   }
 }
