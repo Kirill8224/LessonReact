@@ -1,7 +1,7 @@
 export function sum(a: number, b: number) {
   return(a + b)
 }
-type nums= {
+export type nums= {
   name: string,
   age: number
 }

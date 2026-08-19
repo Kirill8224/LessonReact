@@ -1,18 +1,22 @@
-import {test, expect} from 'vitest'
+import {test, expect, describe, beforeEach} from 'vitest'
 import {reducer} from './useCounter'
+import type {nums} from './useCounter'
+let stateTwo: nums
+beforeEach(()=>{
+    stateTwo= {name: 'Alex', age: 20}
+})
+
 test('reducer setage', ()=> {
-    const state= {name: 'Alex', age: 20}
-    const result= reducer(state, {type: 'setName', payload: 'Misha'})
+//    const state= {name: 'Alex', age: 20}
+    const result= reducer(stateTwo, {type: 'setName', payload: 'Misha'})
     expect(result).toEqual({name: 'Misha', age: 20})
 })
 test('reducer, typ: res', ()=>{
     const result= reducer({name: 'Kirill', age: 15}, 'res')
     expect(result).toEqual({name: 'Kirill', age: 0})
 })
-test('reducer, typ: dec', ()=>{
-    const result= reducer({name: 'Kirill', age: 15}, 'dec')
-    expect(result).toEqual({name: 'Kirill', age: 14})
-})
+
+
 test.each(
     [
         [{name: 'Bibi', age: 14}, {name: 'Bibi', age: 15}],
@@ -24,7 +28,8 @@ test.each(
         expect(result).toEqual(expected)
     }
 )
-test.each(
+describe('dec tests', ()=>{
+    test.each(
     [
         [{name:'Kirill', age: 15}, {name: 'Kirill', age: 14}],
         [{name:'Misha', age: 14}, {name: 'Misha', age: 13}],
@@ -32,3 +37,7 @@ test.each(
     ])('reduce dec', (state, expected)=>{
         expect(reducer(state, 'dec')).toEqual(expected)
     })
+test('reducer, typ: dec', ()=>{
+    const result= reducer({name: 'Kirill', age: 15}, 'dec')
+    expect(result).toEqual({name: 'Kirill', age: 14})
+})})
