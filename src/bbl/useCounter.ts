@@ -1,3 +1,6 @@
+export function sum(a: number, b: number) {
+  return(a + b)
+}
 type nums= {
   name: string,
   age: number
@@ -6,7 +9,7 @@ type acentTy= {
   type: string,
   payload: number | string
 }
-export function reducer(num: nums, acent: string | acentTy){
+export function reducer(num: nums, acent: string | acentTy ){
   if(acent === 'inc'){
     return({...num, age: num.age + 1})
   }
