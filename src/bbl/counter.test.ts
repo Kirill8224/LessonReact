@@ -1,43 +1,35 @@
-import {test, expect, describe, beforeEach} from 'vitest'
-import {reducer} from './useCounter'
-import type {nums} from './useCounter'
-let stateTwo: nums
-beforeEach(()=>{
-    stateTwo= {name: 'Alex', age: 20}
-})
-
-test('reducer setage', ()=> {
-//    const state= {name: 'Alex', age: 20}
-    const result= reducer(stateTwo, {type: 'setName', payload: 'Misha'})
-    expect(result).toEqual({name: 'Misha', age: 20})
-})
-test('reducer, typ: res', ()=>{
-    const result= reducer({name: 'Kirill', age: 15}, 'res')
-    expect(result).toEqual({name: 'Kirill', age: 0})
-})
-
-
-test.each(
-    [
-        [{name: 'Bibi', age: 14}, {name: 'Bibi', age: 15}],
-        [{name: 'Alex', age: 71}, {name: 'Alex', age: 72}],
-        [{name: 'Brbr', age: 25}, {name: 'Brbr', age: 26}],
-        [{name: 'Vlad', age: 54}, {name: 'Vlad', age: 55}],
-    ])('reduce inc', (state, expected)=>{
-        const result= reducer(state, 'inc')
-        expect(result).toEqual(expected)
-    }
-)
-describe('dec tests', ()=>{
-    test.each(
-    [
-        [{name:'Kirill', age: 15}, {name: 'Kirill', age: 14}],
-        [{name:'Misha', age: 14}, {name: 'Misha', age: 13}],
-        [{name:'Bibi', age: 71}, {name: 'Bibi', age: 70}],
-    ])('reduce dec', (state, expected)=>{
-        expect(reducer(state, 'dec')).toEqual(expected)
+import { afterEach, expect, test, beforeAll, beforeEach, describe } from "vitest";
+import { newReducer, reducer } from "./useCounter";
+let message: string= ''
+afterEach(()=>{message= 'clean'})
+const state= {name: 'Alex', age: 20}
+const names= ['Alex', 'Misha', 'Bibi']
+describe('reducer', ()=>{
+    test('test inc', ()=>{
+        expect(reducer(state, 'inc')).toEqual({...state, age: 21})
     })
-test('reducer, typ: dec', ()=>{
-    const result= reducer({name: 'Kirill', age: 15}, 'dec')
-    expect(result).toEqual({name: 'Kirill', age: 14})
-})})
+    test('test dec', ()=>{
+        expect(reducer(state, 'dec')).toEqual({...state, age: 19})
+    })
+    test('test res', ()=>{
+        expect(reducer(state, 'res')).toEqual({...state, age: 0})
+    })
+})
+describe('test names', ()=>{
+    test('Alex',()=>{expect(names).toContain('Alex')})
+    test('Misha', ()=>{
+        expect(names).toContain('Misha')
+    })
+    test('Bibi', ()=>{expect(names).toContain('Bibi')})
+})
+
+test('reducer new', ()=>{
+    message= 'Kirill'
+    expect(newReducer(message, {type: 'new', payload: 'How are you'})).toBe('How are you')
+}
+)
+test('message is clean', ()=>{
+    expect(message).toBe('clean')
+})
+
+

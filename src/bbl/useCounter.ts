@@ -9,6 +9,12 @@ type acentTy= {
   type: string,
   payload: number | string
 }
+
+type acentNew= {
+  type: string,
+  payload: string
+}
+
 export function reducer(num: nums, acent: string | acentTy ){
   if(acent === 'inc'){
     return({...num, age: num.age + 1})
@@ -43,4 +49,20 @@ export function reducer(num: nums, acent: string | acentTy ){
   else{
     return({...num})
   }
+}
+export function newReducer(state: string, acent: acentNew | string){
+  if(acent === 'Hi'){
+    state= 'Hello user!'
+    return(state)
+  }
+  if(typeof acent === 'object'){
+    if(acent.type === 'new'){
+      state= acent.payload
+      return(state)
+    }
+    else{
+      return(state)
+    }
+  }
+  else{return(state)}
 }
