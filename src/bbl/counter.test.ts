@@ -1,4 +1,4 @@
-import { afterEach, expect, test, beforeAll, beforeEach, describe } from "vitest";
+import { afterEach, expect, test,  describe } from "vitest";
 import { newReducer, reducer } from "./useCounter";
 let message: string= ''
 afterEach(()=>{message= 'clean'})
@@ -21,6 +21,9 @@ describe('test names', ()=>{
         expect(names).toContain('Misha')
     })
     test('Bibi', ()=>{expect(names).toContain('Bibi')})
+})
+describe('full test', ()=>{
+    test('length', ()=>{expect(state).toHaveLength(3)})
 })
 
 test('reducer new', ()=>{
