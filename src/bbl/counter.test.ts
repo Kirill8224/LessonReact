@@ -1,4 +1,4 @@
-import { afterEach, expect, test,  describe } from "vitest";
+import { afterEach, expect, test,  describe, vi } from "vitest";
 import { newReducer, reducer } from "./useCounter";
 let message: string= ''
 afterEach(()=>{message= 'clean'})
@@ -22,17 +22,50 @@ describe('test names', ()=>{
     })
     test('Bibi', ()=>{expect(names).toContain('Bibi')})
 })
-describe('full test', ()=>{
-    test('length', ()=>{expect(state).toHaveLength(3)})
+describe('.not', ()=>{
+    test('Kiril no', ()=>{expect(names).not.toBe('Kirill')})
+    test('Anna no', ()=>{expect(names).not.toBe('Anna')})
+    test('Max no', ()=>{expect(names).not.toBe('Max')})
 })
-
+test('no reducer', ()=>{expect(reducer(state, 'inc')).not.toEqual({...state, age: 20})})
 test('reducer new', ()=>{
     message= 'Kirill'
     expect(newReducer(message, {type: 'new', payload: 'How are you'})).toBe('How are you')
-}
-)
+})
 test('message is clean', ()=>{
     expect(message).toBe('clean')
 })
+
+function addTodo(title: string, onAdded: () => void){console.log(title)
+     onAdded()}
+const onUser= vi.fn()
+test('вызвали ли onAdded в addTodo', ()=>{
+    addTodo('buy to product', onUser)
+    expect(onUser).toHaveBeenCalled()
+})
+
+const attempt= vi.fn()
+function connectToServer(onAttempt: () => void) {
+  let attempts = 0;
+  while (attempts < 4) {
+    onAttempt();
+    attempts++;
+  }
+}
+test('сколько раз вызвали onAttempt в connectToServer', ()=>{
+    connectToServer(attempt)
+    expect(attempt).toHaveBeenCalledTimes(4)
+})
+
+function WelcomeUser(name: string, logGreeting: (text: string) => void) {
+  const result = `Hello, ${name}!`;
+  logGreeting(result);
+}
+test('какие аргуенты получила logGreeting в WelcomeUser', ()=>{
+    const Greet= vi.fn()
+    WelcomeUser('Kirill', Greet)
+    expect(Greet).toHaveBeenCalledWith('Hello, Kirill!')
+})
+
 
 
