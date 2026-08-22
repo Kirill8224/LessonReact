@@ -66,3 +66,7 @@ export function newReducer(state: string, acent: acentNew | string){
   }
   else{return(state)}
 }
+
+export function generateId(){
+  return(1)
+}

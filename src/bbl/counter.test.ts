@@ -1,5 +1,6 @@
 import { afterEach, expect, test,  describe, vi } from "vitest";
 import { newReducer, reducer } from "./useCounter";
+import { generateId } from './useCounter';
 let message: string= ''
 afterEach(()=>{message= 'clean'})
 const state= {name: 'Alex', age: 20}
@@ -67,7 +68,6 @@ test('какие аргуенты получила logGreeting в WelcomeUser', 
     expect(Greet).toHaveBeenCalledWith('Hello, Kirill!')
 })
 
-
 function showWarningMessage(count: number) {
     if (count > 10) {
       console.warn('Too many items!');
@@ -77,7 +77,24 @@ test('сколько раз вызовется console.warn в showWarningMessag
     const spy= vi.spyOn(console, 'warn')
     showWarningMessage(15)
     expect(spy).toHaveBeenCalledTimes(1)
-    spy.mockRestore
+    spy.mockRestore()
 })  
 
 
+import { isAdult } from './age-check';
+export function enterClub() {
+  if (isAdult()) {
+    return 'Welcome';
+  } else {
+    return 'Go home';
+  }
+}
+vi.mock('./age-check', ()=>{
+    return({
+        isAdult: ()=>0
+    })
+})
+test('vi.mock: enterclub', ()=>{
+    const result= enterClub()
+    expect(result).toBe('Go home')
+})
