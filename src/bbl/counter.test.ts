@@ -1,6 +1,5 @@
 import { afterEach, expect, test,  describe, vi } from "vitest";
 import { newReducer, reducer } from "./useCounter";
-import { generateId } from './useCounter';
 let message: string= ''
 afterEach(()=>{message= 'clean'})
 const state= {name: 'Alex', age: 20}
