@@ -68,4 +68,16 @@ test('какие аргуенты получила logGreeting в WelcomeUser', 
 })
 
 
+function showWarningMessage(count: number) {
+    if (count > 10) {
+      console.warn('Too many items!');
+    }
+  }
+test('сколько раз вызовется console.warn в showWarningMessage', ()=>{
+    const spy= vi.spyOn(console, 'warn')
+    showWarningMessage(15)
+    expect(spy).toHaveBeenCalledTimes(1)
+    spy.mockRestore
+})  
+
 
